@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>BMI Calculator</title>
+  <style>
+    body { font-family: system-ui; max-width: 520px; margin: 40px auto; padding: 20px; border: 1px solid #ddd; border-radius: 12px; }
+    h1 { margin-top: 0; }
+    label { display:block; margin:10px 0 6px; }
+    input, button { padding:10px; width:100%; box-sizing:border-box; }
+    #out { margin-top:16px; font-weight:600; }
+  </style>
+</head>
+<body>
+  <h1>BMI Calculator</h1>
+  <label>Weight (kg)</label>
+  <input id="w" type="number" step="0.1" placeholder="e.g., 54">
+  <label>Height (cm)</label>
+  <input id="h" type="number" step="0.1" placeholder="e.g., 162">
+  <button onclick="calc()">Calculate</button>
+  <div id="out"></div>
+
+  <script>
+    function calc(){
+      const w = parseFloat(document.getElementById('w').value);
+      const hcm = parseFloat(document.getElementById('h').value);
+      if(!w || !hcm){ document.getElementById('out').textContent = 'Please enter numbers 🙂'; return; }
+      const h = hcm/100;
+      const bmi = w/(h*h);
+      let cat = bmi<18.5?'Underweight':bmi<25?'Normal':bmi<30?'Overweight':'Obese';
+      document.getElementById('out').textContent = BMI: ${bmi.toFixed(1)} (${cat});
+    }
+  </script>
+</body>
+</html>
