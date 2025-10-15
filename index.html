@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>BMI Calculator</title>
   <style>
     body { font-family: system-ui; max-width: 520px; margin: 40px auto; padding: 20px; border: 1px solid #ddd; border-radius: 12px; }
@@ -11,6 +11,35 @@
     input, button { padding:10px; width:100%; box-sizing:border-box; }
     #out { margin-top:16px; font-weight:600; }
   </style>
+
+  <script>
+    // put JS early and global so the button always finds it
+    function calcClick(){
+      // quick sanity: you should see this alert when you click
+      // (we'll keep it once to prove the button works)
+      // remove the next line later if you want
+      alert('Button clicked ✅');
+
+      const w = parseFloat(document.getElementById('w').value);
+      const hcm = parseFloat(document.getElementById('h').value);
+
+      if (isNaN(w) || isNaN(hcm)) {
+        document.getElementById('out').textContent = 'Please enter numbers 🙂';
+        return false;
+      }
+
+      const h = hcm / 100;
+      const bmi = w / (h * h);
+
+      let category = 'Obese';
+      if (bmi < 18.5) category = 'Underweight';
+      else if (bmi < 25) category = 'Normal';
+      else if (bmi < 30) category = 'Overweight';
+
+      document.getElementById('out').textContent = `BMI: ${bmi.toFixed(1)} (${category})`;
+      return false; // never submit/reload even if inside a form
+    }
+  </script>
 </head>
 <body>
   <h1>BMI Calculator</h1>
@@ -21,11 +50,9 @@
   <label>Height (cm)</label>
   <input id="h" type="number" step="0.1" placeholder="e.g., 162">
 
-  <button id="calc-btn">Calculate</button>
+  <!-- type="button" so it never behaves like a form submit -->
+  <button id="calc-btn" type="button" onclick="calcClick()">Calculate</button>
 
   <div id="out"></div>
-
-  <!-- load external script (works even if inline JS is blocked) -->
-  <script src="app.js"></script>
 </body>
 </html>
